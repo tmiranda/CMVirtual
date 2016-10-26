@@ -16,10 +16,6 @@ namespace ClassLibrary1
                     yield return BuildStringForThisIterationValue(iteration);
                 }
             }
-            else
-            {
-                yield return null;
-            }
         }
 
         private string BuildStringForThisIterationValue(int iteration)
