@@ -9,25 +9,36 @@ namespace ConsoleApplication2
     {
         static void Main(string[] args)
         {
+            int upperBound = GetUpperBoundFromCustomer();
+
             WriteInstructionsToCustomer();
 
             var triggers = GetTriggersFromCustomer();
 
-            ICustomerApi api = new customerapi();
+            ICustomerApi api = new CustomerApi();
 
-            //var answer = api.get_list_of_numbers(int.MaxValue);
-            var answer = api.GetNumbers(100);
-            if (!answer.Any())
+            foreach (var x in api.GetNumbers(upperBound, triggers))
             {
-                Console.WriteLine("There was a problem with the upper bound.");
+                Console.WriteLine(x);
             }
-            else
-            {
-                foreach (var x in answer)
-                { Console.WriteLine(x); }
-            }
+
             WriteEndInstructionsToCustomer();
+
             Console.ReadKey();
+        }
+
+        private static int GetUpperBoundFromCustomer()
+        {
+            var message = "Enter a number to be used as the upper bound for the operation and press enter:";
+            Console.WriteLine(message);
+
+            int upperBoundFromCustomer;
+            while (!int.TryParse(Console.ReadLine(), out upperBoundFromCustomer))
+            {
+                Console.WriteLine(message);
+            }
+
+            return upperBoundFromCustomer;
         }
 
         private static Dictionary<int, string> GetTriggersFromCustomer()
@@ -36,10 +47,17 @@ namespace ConsoleApplication2
             string triggerValue;
             while ((triggerValue = Console.ReadLine()) != "go")
             {
-                var triggerKey = int.Parse(triggerValue.Split(',')[0]);
-                if (!triggers.ContainsKey(triggerKey))
+                var keyvalue = triggerValue.Split(',');
+                if(keyvalue.Count() == 2)
                 {
-                    triggers.Add(triggerKey, triggerValue.Split(',')[1].Trim());
+                    int triggerKey;
+                    if(int.TryParse(triggerValue.Split(',')[0], out triggerKey))
+                    {
+                        if (!triggers.ContainsKey(triggerKey))
+                        {
+                            triggers.Add(triggerKey, triggerValue.Split(',')[1].Trim());
+                        }
+                    }
                 }
             }
 
