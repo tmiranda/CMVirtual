@@ -4,36 +4,33 @@ namespace ClassLibrary1
 {
     public class customerapi : ICustomerApi
     {
-        public List<string> get_list_of_numbers(int upperBound)
+
+        public IEnumerable<string> GetNumbers(int upperBound)
         {
-            var returnlist = new List<string>();
-            if (upperBound > 1)
+            if(upperBound>0)
             {
-                for (var x = 1; x <= upperBound; x++)
+                string return_value;
+                //loop from 1 to the upper bound passed in
+                for (var iteration = 1; iteration <= upperBound; iteration++)
                 {
-                    var write_num = true;
-                    if (x % 3 == 0)
+                    return_value = string.Empty;
+                    if (iteration % 3 == 0)
                     {
-                        returnlist.Add("zip");
-                        write_num = false;
+                        return_value += "zip ";
                     }
-                    if (x % 5 == 0)
+                    if (iteration % 5 == 0)
                     {
-                        returnlist.Add("fizz");
-                        write_num = false;
+                        return_value += "fizz";
                     }
-                    if (write_num)
+                    if (string.IsNullOrEmpty(return_value))
                     {
-                        returnlist.Add(x.ToString());
-                        write_num = true;
+                        return_value = iteration.ToString();
                     }
+                    yield return return_value;
                 }
-                return returnlist;
             }
-            else
-            {
-                return returnlist;
-            }
+
         }
+
     }
 }
