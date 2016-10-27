@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="default">
+	<PropertyGroup>
+		<BaseDir>$(MSBuildProjectDirectory)\..</BaseDir>
+		<Configuration Condition="'$(Configuration)'==''" >Release</Configuration>
+		<BuildDir>$(BaseDir)\build</BuildDir>
+		<SolutionFile>$(BaseDir)\ConsoleApplication2.sln</SolutionFile>
+	</PropertyGroup>
+	
+	<Target Name="default" DependsOnTargets="Compile;" />
+
+	<Target Name="Compile">
+		<MSBuild Projects="$(SolutionFile)" Properties="Configuration=$(Configuration)"  Targets="Rebuild" />
+	</Target>
+
+</Project>
